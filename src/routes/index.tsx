@@ -20,6 +20,10 @@ import {
   Package,
   Plus,
   Minus,
+  Activity,
+  Sparkles,
+  Filter as FilterIcon,
+  BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -228,6 +232,9 @@ function Index() {
   const [selectedHeroIdx, setSelectedHeroIdx] = useState(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [activePhoto, setActivePhoto] = useState<ProductPhoto | null>(null);
+  const [chartCategory, setChartCategory] = useState<
+    "all" | "quality" | "filtration" | "hydration"
+  >("all");
   const currentHero = productGallery[selectedHeroIdx] ?? productGallery[0]!;
   const ph = describePh(selectedPh);
   return (
@@ -704,25 +711,195 @@ function Index() {
                 Anda kenali.
               </h2>
             </div>
-            <p className="max-w-[330px] text-sm leading-7 text-muted-foreground">
-              Ringkasan data kualitas air dari standar resmi dan literatur umum, disajikan dalam
-              grafik sederhana.
+            <p className="max-w-[360px] text-sm leading-7 text-muted-foreground">
+              Ringkasan data kualitas air dari standar resmi Permenkes, EFSA, dan literatur umum,
+              disajikan dalam visualisasi grafik interaktif.
             </p>
           </div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            <WaterChartCard chart={phComparison} />
-            <WaterChartCard chart={heavyMetalLimits} />
-            <WaterChartCard chart={ironLevels} />
-            <WaterChartCard chart={filterEffectiveness} />
-            <WaterChartCard chart={bodyWater} />
-            <WaterChartCard chart={intakeSources} />
-            <WaterChartCard chart={hydrationNeeds} />
-            <WaterChartCard chart={treatmentRadar} />
+
+          {/* Quick Highlight Benchmark Cards */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card to-card/90 p-4.5 shadow-xs transition-all hover:border-emerald-500/40 hover:shadow-md">
+              <div className="flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
+                <span className="flex size-7 items-center justify-center rounded-lg bg-emerald-500/10">
+                  <Droplets className="size-4" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-wider">
+                  Standar Kualitas
+                </span>
+              </div>
+              <div className="mt-2.5 flex items-baseline gap-2">
+                <span className="text-2xl font-black tracking-tight text-foreground font-display">
+                  6,5 – 8,5
+                </span>
+                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                  pH Ideal
+                </span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                Rentang pH air minum layak konsumsi menurut Permenkes RI No. 2/2023.
+              </p>
+            </div>
+
+            <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card to-card/90 p-4.5 shadow-xs transition-all hover:border-amber-500/40 hover:shadow-md">
+              <div className="flex items-center gap-2.5 text-amber-600 dark:text-amber-400">
+                <span className="flex size-7 items-center justify-center rounded-lg bg-amber-500/10">
+                  <ShieldCheck className="size-4" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-wider">
+                  Batas Logam Ketat
+                </span>
+              </div>
+              <div className="mt-2.5 flex items-baseline gap-2">
+                <span className="text-2xl font-black tracking-tight text-foreground font-display">
+                  0,01
+                </span>
+                <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">
+                  mg/L Timbal
+                </span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                Batas maksimum cemaran logam toksik timbal & arsenik pada air minum.
+              </p>
+            </div>
+
+            <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card to-card/90 p-4.5 shadow-xs transition-all hover:border-sky-500/40 hover:shadow-md">
+              <div className="flex items-center gap-2.5 text-sky-600 dark:text-sky-400">
+                <span className="flex size-7 items-center justify-center rounded-lg bg-sky-500/10">
+                  <Activity className="size-4" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-wider">
+                  Komposisi Tubuh
+                </span>
+              </div>
+              <div className="mt-2.5 flex items-baseline gap-2">
+                <span className="text-2xl font-black tracking-tight text-foreground font-display">
+                  ± 60%
+                </span>
+                <span className="text-xs font-semibold text-sky-600 dark:text-sky-400">
+                  Kandungan Air
+                </span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                Rata-rata massa tubuh manusia adalah air, menuntut hidrasi yang higienis.
+              </p>
+            </div>
           </div>
-          <p className="mt-5 text-[11px] leading-5 text-muted-foreground">
-            Grafik bersifat edukatif. Untuk memastikan kualitas air di rumah Anda, lakukan uji
-            laboratorium terhadap sumber air.
-          </p>
+
+          {/* Interactive Category Filter Pills */}
+          <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-border/60 pb-4">
+            <span className="text-xs font-semibold text-muted-foreground mr-1 hidden sm:inline">
+              Kategori:
+            </span>
+            <button
+              type="button"
+              onClick={() => setChartCategory("all")}
+              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+                chartCategory === "all"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-secondary text-foreground/80 hover:bg-secondary/80 hover:text-foreground"
+              }`}
+            >
+              <BarChart3 className="size-3.5" />
+              <span>Semua Grafik</span>
+              <span
+                className={`rounded-full px-1.5 py-0.2 text-[10px] ${chartCategory === "all" ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`}
+              >
+                8
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setChartCategory("quality")}
+              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+                chartCategory === "quality"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-secondary text-foreground/80 hover:bg-secondary/80 hover:text-foreground"
+              }`}
+            >
+              <Droplets className="size-3.5" />
+              <span>Kualitas & Logam</span>
+              <span
+                className={`rounded-full px-1.5 py-0.2 text-[10px] ${chartCategory === "quality" ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`}
+              >
+                3
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setChartCategory("filtration")}
+              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+                chartCategory === "filtration"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-secondary text-foreground/80 hover:bg-secondary/80 hover:text-foreground"
+              }`}
+            >
+              <FilterIcon className="size-3.5" />
+              <span>Metode Filtrasi</span>
+              <span
+                className={`rounded-full px-1.5 py-0.2 text-[10px] ${chartCategory === "filtration" ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`}
+              >
+                2
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setChartCategory("hydration")}
+              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
+                chartCategory === "hydration"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-secondary text-foreground/80 hover:bg-secondary/80 hover:text-foreground"
+              }`}
+            >
+              <Activity className="size-3.5" />
+              <span>Hidrasi & Tubuh</span>
+              <span
+                className={`rounded-full px-1.5 py-0.2 text-[10px] ${chartCategory === "hydration" ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`}
+              >
+                3
+              </span>
+            </button>
+          </div>
+
+          {/* Filtered Charts Grid */}
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            {(chartCategory === "all" || chartCategory === "quality") && (
+              <>
+                <WaterChartCard chart={phComparison} />
+                <WaterChartCard chart={heavyMetalLimits} />
+                <WaterChartCard chart={ironLevels} />
+              </>
+            )}
+            {(chartCategory === "all" || chartCategory === "filtration") && (
+              <>
+                <WaterChartCard chart={filterEffectiveness} />
+                <WaterChartCard chart={treatmentRadar} />
+              </>
+            )}
+            {(chartCategory === "all" || chartCategory === "hydration") && (
+              <>
+                <WaterChartCard chart={bodyWater} />
+                <WaterChartCard chart={intakeSources} />
+                <WaterChartCard chart={hydrationNeeds} />
+              </>
+            )}
+          </div>
+
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-border/60 bg-muted/20 p-4 text-xs text-muted-foreground">
+            <p className="flex items-center gap-2">
+              <Info className="size-4 shrink-0 text-primary" />
+              <span>
+                Grafik bersifat edukatif berdasarkan standar resmi. Untuk memastikan kualitas air di
+                rumah Anda, lakukan uji laboratorium.
+              </span>
+            </p>
+            <span className="text-[11px] font-semibold text-foreground/80 shrink-0">
+              Diperbarui: Oktober 2026
+            </span>
+          </div>
         </section>
 
         <section id="galeri" className="section page-width">
