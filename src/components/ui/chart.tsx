@@ -97,6 +97,7 @@ const ChartTooltipContent = React.forwardRef<
   React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
     React.ComponentProps<"div"> & {
       active?: boolean;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       payload?: ReadonlyArray<any>;
       label?: unknown;
       hideLabel?: boolean;
@@ -245,13 +246,13 @@ const ChartLegend = RechartsPrimitive.Legend;
 
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> &
-    {
-      payload?: ReadonlyArray<any>;
-      verticalAlign?: "top" | "bottom" | "middle";
-      hideIcon?: boolean;
-      nameKey?: string;
-    }
+  React.ComponentProps<"div"> & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    payload?: ReadonlyArray<any>;
+    verticalAlign?: "top" | "bottom" | "middle";
+    hideIcon?: boolean;
+    nameKey?: string;
+  }
 >(({ className, hideIcon = false, payload, verticalAlign = "bottom", nameKey }, ref) => {
   const { config } = useChart();
 

@@ -1,147 +1,1046 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
-import { ArrowUpRight, ArrowRight, ShoppingBag, Droplets, Leaf, ShieldCheck, Wind, FlaskConical, Check, Menu, X, Play, ImageIcon, ExternalLink, CircleCheck, Info, Package, Plus, Minus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { TestimonialCarousel } from '@/components/testimonial-carousel';
-import originalPhoto from '@/assets/asone-product.png';
-import { ProductInformation } from '@/components/product-information';
-import { product, describePh } from '@/lib/product-data';
-import { WaterChartCard } from '@/components/water-chart';
-import { WaterTypesExplorer } from '@/components/water-types';
-import { heavyMetalLimits, phComparison, filterEffectiveness, bodyWater, intakeSources, hydrationNeeds, treatmentRadar, ironLevels, waterTypePh } from '@/lib/water-data';
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  ShoppingBag,
+  Droplets,
+  Leaf,
+  ShieldCheck,
+  Wind,
+  FlaskConical,
+  Check,
+  Menu,
+  X,
+  Play,
+  ImageIcon,
+  ExternalLink,
+  CircleCheck,
+  Info,
+  Package,
+  Plus,
+  Minus,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { TestimonialCarousel } from "@/components/testimonial-carousel";
+import originalPhoto from "@/assets/asone-product.png";
+import lifestylePhoto from "@/assets/images/lifestyle_hydration_countertop_1791786069680.jpg";
+import cartridgeMacroPhoto from "@/assets/images/cartridge_filtration_macro_1791786084552.jpg";
+import waterNaturePhoto from "@/assets/images/water_purity_nature_1791786097694.jpg";
+import { ProductInformation } from "@/components/product-information";
+import { product, describePh } from "@/lib/product-data";
+import { WaterChartCard } from "@/components/water-chart";
+import { WaterTypesExplorer } from "@/components/water-types";
+import {
+  heavyMetalLimits,
+  phComparison,
+  filterEffectiveness,
+  bodyWater,
+  intakeSources,
+  hydrationNeeds,
+  treatmentRadar,
+  ironLevels,
+  waterTypePh,
+} from "@/lib/water-data";
 
-export const Route = createFileRoute('/')({
-  head: () => ({ meta: [
-    { title: 'AsonE — Teko Filter Air Alkali | Clean & Healthy Hydration' },
-    { name: 'description', content: 'Kenali AsonE, teko filter air alkali 3,2 liter tanpa listrik berbahan Tritan, dengan arang aktif, bio keramik, dan bio alkaline. Pahami pemakaian dan batasan klaim kesehatan.' },
-    { property: 'og:title', content: 'AsonE — Clean & Healthy Hydration' },
-    { property: 'og:description', content: 'Teko filter air alkali 3,2 liter. Kenali produk, pahami kualitas air, dan belanja melalui Shopee.' },
-    { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: 'summary_large_image' },
-  ] }),
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "AsonE — Teko Filter Air Alkali | Clean & Healthy Hydration" },
+      {
+        name: "description",
+        content:
+          "Kenali AsonE, teko filter air alkali 3,2 liter tanpa listrik berbahan Tritan, dengan arang aktif, bio keramik, dan bio alkaline. Pahami pemakaian dan batasan klaim kesehatan.",
+      },
+      { property: "og:title", content: "AsonE — Clean & Healthy Hydration" },
+      {
+        property: "og:description",
+        content:
+          "Teko filter air alkali 3,2 liter. Kenali produk, pahami kualitas air, dan belanja melalui Shopee.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-const nav = [['Produk', '#produk'], ['Kualitas Air', '#kualitas-air'], ['Jenis Air', '#jenis-air'], ['Data Air', '#data-air'], ['Galeri', '#galeri'], ['Tanya Jawab', '#faq'], ['Artikel', '/artikel']];
+const nav = [
+  ["Produk", "#produk"],
+  ["Kualitas Air", "#kualitas-air"],
+  ["Jenis Air", "#jenis-air"],
+  ["Data Air", "#data-air"],
+  ["Galeri", "#galeri"],
+];
+const allNav = [
+  ["Produk", "#produk"],
+  ["Kualitas Air", "#kualitas-air"],
+  ["Jenis Air", "#jenis-air"],
+  ["Data Air", "#data-air"],
+  ["Galeri", "#galeri"],
+  ["Tanya Jawab", "#faq"],
+  ["Artikel", "/artikel"],
+];
 const features = [
-  { icon: FlaskConical, title: 'Formula pH 9.0+', text: 'Dirancang untuk meningkatkan pH air menjadi alkali. Hasil dapat berbeda sesuai air sumber.', tag: 'Klaim spesifikasi penjual' },
-  { icon: Wind, title: 'Air tanpa bau mengganggu', text: 'Karbon aktif membantu menyerap bau, untuk pengalaman minum yang lebih segar.', tag: 'Anti-odor' },
-  { icon: ShieldCheck, title: 'Kurangi sisa klorin', text: 'Karbon aktif membantu menyerap sisa klorin pada air yang digunakan.', tag: 'Anti-chlorine' },
-  { icon: Droplets, title: 'Satu teko, untuk sehari-hari', text: 'Kapasitas 3,2 liter dengan desain praktis untuk menemani rutinitas hidrasi keluarga.', tag: 'Kapasitas 3,2 liter' },
+  {
+    icon: FlaskConical,
+    title: "Formula pH 9.0+",
+    text: "Dirancang untuk meningkatkan pH air menjadi alkali. Hasil dapat berbeda sesuai air sumber.",
+    tag: "Klaim spesifikasi penjual",
+  },
+  {
+    icon: Wind,
+    title: "Air tanpa bau mengganggu",
+    text: "Karbon aktif membantu menyerap bau, untuk pengalaman minum yang lebih segar.",
+    tag: "Anti-odor",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Kurangi sisa klorin",
+    text: "Karbon aktif membantu menyerap sisa klorin pada air yang digunakan.",
+    tag: "Anti-chlorine",
+  },
+  {
+    icon: Droplets,
+    title: "Satu teko, untuk sehari-hari",
+    text: "Kapasitas 3,2 liter dengan desain praktis untuk menemani rutinitas hidrasi keluarga.",
+    tag: "Kapasitas 3,2 liter",
+  },
 ];
 const faqs = [
-  ['Apakah air dengan pH lebih tinggi selalu lebih baik?', 'Tidak. pH hanya salah satu parameter kualitas air. Air minum juga harus memenuhi persyaratan mikrobiologi, fisik, dan kimia. Klaim pH 9,0+ AsonE berada di atas rentang pH 6,5–8,5 dalam Permenkes No. 2 Tahun 2023; ini bukan bukti memenuhi seluruh standar air minum.'],
-  ['Apakah teko ini bisa digunakan untuk air mentah?', 'Gunakan air yang sudah layak minum. Jangan mengandalkan teko ini untuk membuat air mentah aman. Kemampuan menyaring bakteri atau kontaminan tertentu perlu dibuktikan dengan uji laboratorium independen.'],
-  ['Minuman apa yang tidak boleh dimasukkan?', `Jangan masukkan ${product.prohibitedWithCartridge.join(', ').toLowerCase()}, atau minuman sejenis saat cartridge masih terpasang. Teko ini diperuntukkan untuk air.`],
-  ['Apakah air alkali aman untuk bayi?', 'Jangan gunakan filter air alkali ini untuk bayi, sesuai peringatan produk. Untuk kebutuhan khusus, kondisi medis, atau penggunaan rutin, konsultasikan dengan tenaga kesehatan.'],
-  ['Apakah produk ini dapat mengobati penyakit?', 'Produk ini tidak menggantikan peran medis. Klaim menetralkan asam tubuh, mencegah penyakit, menurunkan berat badan, atau manfaat kulit tidak dijamin dan memerlukan bukti klinis. Tetap jalani pola hidup sehat.'],
-  ['Bagaimana cara membeli dan mengganti cartridge?', 'Pembelian diarahkan ke halaman produk Shopee. Periksa harga, stok, ongkir, petunjuk pemakaian, dan jadwal penggantian cartridge langsung pada penjual sebelum membeli.'],
+  [
+    "Apakah air dengan pH lebih tinggi selalu lebih baik?",
+    "Tidak. pH hanya salah satu parameter kualitas air. Air minum juga harus memenuhi persyaratan mikrobiologi, fisik, dan kimia. Klaim pH 9,0+ AsonE berada di atas rentang pH 6,5–8,5 dalam Permenkes No. 2 Tahun 2023; ini bukan bukti memenuhi seluruh standar air minum.",
+  ],
+  [
+    "Apakah teko ini bisa digunakan untuk air mentah?",
+    "Gunakan air yang sudah layak minum. Jangan mengandalkan teko ini untuk membuat air mentah aman. Kemampuan menyaring bakteri atau kontaminan tertentu perlu dibuktikan dengan uji laboratorium independen.",
+  ],
+  [
+    "Minuman apa yang tidak boleh dimasukkan?",
+    `Jangan masukkan ${product.prohibitedWithCartridge.join(", ").toLowerCase()}, atau minuman sejenis saat cartridge masih terpasang. Teko ini diperuntukkan untuk air.`,
+  ],
+  [
+    "Apakah air alkali aman untuk bayi?",
+    "Jangan gunakan filter air alkali ini untuk bayi, sesuai peringatan produk. Untuk kebutuhan khusus, kondisi medis, atau penggunaan rutin, konsultasikan dengan tenaga kesehatan.",
+  ],
+  [
+    "Apakah produk ini dapat mengobati penyakit?",
+    "Produk ini tidak menggantikan peran medis. Klaim menetralkan asam tubuh, mencegah penyakit, menurunkan berat badan, atau manfaat kulit tidak dijamin dan memerlukan bukti klinis. Tetap jalani pola hidup sehat.",
+  ],
+  [
+    "Bagaimana cara membeli dan mengganti cartridge?",
+    "Pembelian diarahkan ke halaman produk Shopee. Periksa harga, stok, ongkir, petunjuk pemakaian, dan jadwal penggantian cartridge langsung pada penjual sebelum membeli.",
+  ],
 ];
 
-function BuyButton({ light = false, label = 'Beli di Shopee', compact = false }: { light?: boolean; label?: string; compact?: boolean }) {
-  return <Button asChild size={compact ? 'default' : 'lg'} className={`${light ? 'buy-white' : ''} ${compact ? '' : 'h-12 px-6'}`}><a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer"><ShoppingBag />{label}<ArrowUpRight /></a></Button>;
+function BuyButton({
+  light = false,
+  label = "Beli di Shopee",
+  compact = false,
+}: {
+  light?: boolean;
+  label?: string;
+  compact?: boolean;
+}) {
+  return (
+    <Button
+      asChild
+      size={compact ? "default" : "lg"}
+      className={`${light ? "buy-white" : "bg-gradient-to-r from-primary to-indigo-600 text-white shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02]"} font-bold transition-all ${compact ? "h-10 px-4" : "h-12 px-7"}`}
+    >
+      <a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer">
+        <ShoppingBag className="size-4" />
+        {label}
+        <ArrowUpRight className="size-4" />
+      </a>
+    </Button>
+  );
 }
-function Brand() { return <a href="/" aria-label="AsonE beranda" className="shrink-0"><img src="/favicon.png" alt="Logo ASONE — Teknologi Korea" className="brand-logo" width={66} height={66} /></a>; }
+function Brand() {
+  return (
+    <a href="/" aria-label="AsonE beranda" className="shrink-0">
+      <img
+        src="/favicon.png"
+        alt="Logo ASONE — Teknologi Korea"
+        className="brand-logo"
+        width={66}
+        height={66}
+      />
+    </a>
+  );
+}
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPh, setSelectedPh] = useState(7);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mediaNotice, setMediaNotice] = useState<string | null>(null);
+  const [activePhoto, setActivePhoto] = useState<{
+    src: string;
+    title: string;
+    tag: string;
+    desc: string;
+  } | null>(null);
   const ph = describePh(selectedPh);
-  return <>
-    <div className="announcement">Clean water. A better everyday. <span className="mx-3">/</span> ASONE Alkaline Water Filter</div>
-    <header className="site-header">
-      <div className="page-width flex h-[80px] items-center justify-between gap-5">
-        <Brand />
-        <nav className="site-nav flex items-center gap-7" aria-label="Navigasi utama">{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
-        <div className="flex items-center gap-2"><div className="hidden sm:block"><BuyButton compact /></div><Button variant="ghost" size="icon" className="lg:hidden" aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button></div>
+  return (
+    <>
+      <div className="announcement">
+        ✨ <span className="font-extrabold text-white">ASONE Alkaline Water Filter</span> · Hidrasi
+        Bersih & Segar Setiap Hari <span className="mx-2 hidden sm:inline">/</span>{" "}
+        <span className="hidden sm:inline font-semibold text-white/95">
+          Kapasitas 3,2L Bebas Listrik
+        </span>
       </div>
-      {menuOpen && <nav className="mobile-menu lg:hidden" aria-label="Navigasi seluler">{nav.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}<BuyButton /></nav>}
-    </header>
-    <main>
-      <section className="hero">
-        <img src={originalPhoto} alt="Foto asli teko filter air ASONE dan kemasannya di atas meja" className="hero-image" fetchPriority="high" />
-        <div className="page-width"><div className="hero-copy reveal">
-          <div className="eyebrow mb-5 flex items-center gap-2"><Droplets className="size-4" /> HIDRASI DIMULAI DI SINI</div>
-          <h1 className="hero-title">ASONE<span className="text-water">.</span><span className="hero-category">Alkaline <br />Water Filter</span></h1>
-          <p className="mt-5 max-w-[350px] text-sm leading-7 text-muted-foreground">Kenali ASONE Water, teko filter air alkali tanpa listrik berbahan plastik Tritan. Sistem penyaringan untuk menemani rutinitas hidrasi Anda.</p>
-          <div className="mt-7 flex flex-wrap items-center gap-4"><BuyButton /><Button variant="link" asChild className="px-0"><a href="#produk">Jelajahi produk <ArrowRight /></a></Button></div>
-          <div className="hero-details"><span><Check className="size-3.5" /> 3,2 liter</span><span><Check className="size-3.5" /> Tanpa listrik</span><span><Check className="size-3.5" /> Plastik Tritan</span></div>
-        </div></div>
-        <div className="hero-feature"><span className="text-xs">01 / ASONE ORIGINAL</span><span className="text-xs">Teko & kemasan produk <ArrowUpRight className="inline size-4" /></span></div>
-      </section>
-      <div className="border-b border-border bg-background"><div className="page-width grid grid-cols-2 gap-6 py-7 md:grid-cols-4">{[[Droplets, 'Hidrasi sehari-hari'], [Leaf, 'Formula air alkali'], [ShieldCheck, 'Karbon aktif'], [Package, 'Praktis untuk keluarga']].map(([Icon, label], i) => { const FeatureIcon = Icon as typeof Droplets; return <div key={i} className="flex items-center justify-center gap-3 text-xs font-medium"><FeatureIcon className="size-5 text-primary" /><span>{label as string}</span></div>; })}</div></div>
-
-      <section id="produk" className="section page-width product-section">
-        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="eyebrow mb-3">SEDERHANA, DI SETIAP TEGUKAN</p><h2 className="section-title">Air yang lebih nyaman.<br />Rutinitas yang lebih baik.</h2></div><p className="max-w-[330px] text-sm leading-7 text-muted-foreground">Kenali apa yang ada di dalam teko AsonE, dan bagaimana filternya menemani keseharian Anda.</p></div>
-        <div className="feature-grid mt-10 grid sm:grid-cols-2 lg:grid-cols-4">{features.map(({ icon: Icon, title, text, tag }, i) => <article className="feature-card" key={title}><div className="flex items-center justify-between"><div className="icon-tile"><Icon className="size-5" /></div><span className="text-xs text-muted-foreground">0{i + 1}</span></div><h3 className="mb-3 mt-6 text-base font-bold leading-6">{title}</h3><p className="text-xs leading-6 text-muted-foreground">{text}</p><div className="mt-6 border-t border-border pt-4 text-[10px] font-medium text-primary">{tag}</div></article>)}</div>
-        <p className="mt-5 text-[11px] leading-5 text-muted-foreground">Spesifikasi berdasarkan informasi penjual. Efektivitas filter dan pH hasil memerlukan pengujian; bukan jaminan kualitas air atau manfaat medis.</p>
-      </section>
-
-      <ProductInformation />
-
-      <section id="kualitas-air" className="section bg-water-soft">
-        <div className="page-width">
-          <div className="mx-auto max-w-xl text-center"><p className="eyebrow mb-3">KENALI AIR ANDA</p><h2 className="section-title">Air yang baik bukan<br />sekadar terlihat jernih.</h2><p className="mt-4 text-sm leading-7 text-muted-foreground">pH, kandungan zat terlarut, dan kebersihan mikrobiologi sama-sama penting. Kenali parameternya sebelum memilih.</p></div>
-          <div className="mt-12 grid gap-12 lg:grid-cols-[1.1fr_1fr]">
-            <div><div className="mb-5 flex items-center justify-between"><h3 className="text-lg font-semibold">Memahami skala pH</h3><span className="text-xs text-muted-foreground">0 — 14</span></div>
-              <div className="ph-scale" role="group" aria-label="Skala pH interaktif">{Array.from({ length: 15 }, (_, i) => <Button key={i} variant="ghost" aria-label={`pH ${i}`} aria-pressed={selectedPh === i} data-active={selectedPh === i} onClick={() => setSelectedPh(i)}>{i}</Button>)}</div>
-              <div className="mt-3 flex justify-between text-[10px] text-muted-foreground"><span>ASAM</span><span>NETRAL</span><span>BASA / ALKALI</span></div>
-              <div className="mt-7 flex items-start gap-4 border-y border-border py-5"><div className="number min-w-12 text-water">{selectedPh}</div><div aria-live="polite"><h4 className="mb-1 text-sm font-semibold">{ph.label}</h4><p className="text-xs leading-6 text-muted-foreground">{ph.explanation}</p></div></div>
-              <div className="mt-5 flex gap-3 text-xs leading-6"><Info className="mt-1 size-4 shrink-0 text-water" /><p><strong>Perhatikan rentangnya.</strong> Standar pH air minum Indonesia adalah 6,5–8,5. Klaim pH 9,0+ produk berada di atas rentang ini; pH tinggi tidak otomatis lebih sehat.</p></div>
+      <header className="site-header">
+        <div className="page-width flex h-[80px] items-center justify-between gap-5">
+          <Brand />
+          <nav className="site-nav flex items-center gap-7" aria-label="Navigasi utama">
+            {nav.map(([label, href]) => (
+              <a
+                key={href}
+                href={href}
+                className="text-sm font-semibold hover:text-primary transition-colors"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block">
+              <BuyButton compact />
             </div>
-            <div className="border-l-0 border-border lg:border-l lg:pl-10"><p className="eyebrow mb-3">ACUAN KEMENTERIAN KESEHATAN RI</p><h3 className="text-xl font-semibold">Standar kualitas air minum</h3><p className="mt-3 text-xs leading-6 text-muted-foreground">Diatur dalam <strong>Permenkes No. 2 Tahun 2023</strong>, bukan satu undang-undang khusus pH. Berikut beberapa parameter wajib:</p>
-              <dl className="mt-5">{[['Derajat keasaman (pH)', '6,5–8,5'], ['Total zat terlarut (TDS)', '< 300 mg/L'], ['Kekeruhan', '< 3 NTU'], ['E. coli & total koliform', '0 / 100 mL']].map(([name, value]) => <div key={name} className="flex items-center justify-between gap-4 border-b border-border py-3.5 text-xs"><dt className="text-muted-foreground">{name}</dt><dd className="font-semibold text-foreground">{value}</dd></div>)}</dl>
-              <a href="https://jdih.kemkes.go.id/storage/documents/pdfs/2023permenkes002.pdf" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-primary underline underline-offset-4">Baca regulasi resmi <ExternalLink className="size-3" /></a>
-              <p className="mt-3 text-[10px] leading-5 text-muted-foreground">Ringkasan, bukan seluruh parameter. Kepatuhan kualitas air perlu dibuktikan melalui pengujian laboratorium.</p>
+            <Button
+              variant="outline"
+              size="icon"
+              className="lg:hidden border-border/80"
+              aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </Button>
+          </div>
+        </div>
+        {menuOpen && (
+          <nav
+            className="mobile-menu lg:hidden border-t border-border/80 bg-background/95 backdrop-blur-xl p-6 shadow-xl"
+            aria-label="Navigasi seluler"
+          >
+            <div className="grid gap-2">
+              {allNav.map(([label, href]) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-foreground hover:bg-primary/5 transition-colors"
+                >
+                  <span>{label}</span>
+                  <ArrowRight className="size-4 text-muted-foreground" />
+                </a>
+              ))}
+            </div>
+            <div className="mt-4 pt-4 border-t border-border/60">
+              <BuyButton />
+            </div>
+          </nav>
+        )}
+      </header>
+      <main>
+        <section className="hero">
+          <img
+            src={originalPhoto}
+            alt="Foto asli teko filter air ASONE dan kemasannya di atas meja"
+            className="hero-image"
+            fetchPriority="high"
+          />
+          <div className="page-width">
+            <div className="hero-copy reveal">
+              <div className="eyebrow mb-5">
+                <Droplets className="size-3.5 text-primary" /> TEKNOLOGI HIDRASI SEGAR
+              </div>
+              <h1 className="hero-title">
+                ASONE<span className="text-cyan-400">.</span>
+                <span className="hero-category">
+                  Alkaline <br />
+                  Water Filter
+                </span>
+              </h1>
+              <p className="mt-5 max-w-[390px] text-base leading-relaxed text-foreground/85">
+                Kenali <strong className="text-foreground">ASONE Water</strong> — teko filter air
+                alkali 3,2 liter tanpa listrik berbahan{" "}
+                <strong className="text-primary font-bold">Plastik Tritan Food-Grade</strong>.
+                Praktis menyaring air untuk rutinitas hidrasi sehat keluarga Anda.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-4">
+                <BuyButton />
+                <Button
+                  variant="outline"
+                  asChild
+                  className="h-12 border-primary/30 px-5 font-bold hover:bg-primary/5 hover:text-primary"
+                >
+                  <a href="#produk">
+                    Jelajahi Produk <ArrowRight className="size-4" />
+                  </a>
+                </Button>
+              </div>
+              <div className="hero-details">
+                <span>
+                  <Check className="size-3.5" /> 3,2 Liter
+                </span>
+                <span>
+                  <Check className="size-3.5" /> Bebas Listrik
+                </span>
+                <span>
+                  <Check className="size-3.5" /> Tritan Bebas BPA
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="hero-feature">
+            <span className="text-xs font-bold tracking-wide">01 / ASONE ORIGINAL</span>
+            <span className="text-xs font-semibold">
+              Teko & Kemasan Resmi <ArrowUpRight className="inline size-4" />
+            </span>
+          </div>
+        </section>
+        <div className="border-b border-border bg-gradient-to-r from-background via-water-soft/40 to-background py-5">
+          <div className="page-width grid grid-cols-2 gap-4 md:grid-cols-4">
+            {[
+              [Droplets, "Hidrasi Sehat Setiap Hari"],
+              [Leaf, "Formula Air Alkali Alami"],
+              [ShieldCheck, "Karbon Aktif Anti-Bau"],
+              [Package, "Kapasitas 3,2L Keluarga"],
+            ].map(([Icon, label], i) => {
+              const FeatureIcon = Icon as typeof Droplets;
+              return (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 rounded-xl border border-border/80 bg-card p-3.5 shadow-xs transition-all hover:border-primary/40 hover:shadow-sm"
+                >
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <FeatureIcon className="size-5" />
+                  </div>
+                  <span className="text-xs font-bold text-foreground">{label as string}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <section id="produk" className="section page-width product-section">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="eyebrow mb-3">FITUR UNGGULAN TEKO</p>
+              <h2 className="section-title">
+                Air Lebih Segar & Alami.
+                <br />
+                <span className="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">
+                  Rutinitas Hidrasi Maksimal.
+                </span>
+              </h2>
+            </div>
+            <p className="max-w-[360px] text-sm leading-relaxed text-foreground/80">
+              Ketahui keunggulan di dalam teko filter AsonE dan bagaimana komponennya bekerja untuk
+              menemani keseharian Anda.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-12">
+            <article className="feature-card lg:col-span-7 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="icon-tile">
+                    <FlaskConical className="size-5" />
+                  </div>
+                  <span className="text-xs font-mono font-bold text-primary">01 / FITUR UTAMA</span>
+                </div>
+                <h3 className="mt-6 text-xl sm:text-2xl font-extrabold text-foreground">
+                  Formula Derajat pH 9.0+ & Mineral Alami
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+                  Dirancang khusus untuk membantu menaikkan derajat pH air minum menuju karakter
+                  alkali segar dengan bantuan media bio-alkaline dan komposit mineral alami.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-between text-xs text-muted-foreground">
+                <span className="font-semibold text-primary">Klaim Spesifikasi Penjual</span>
+                <span>Tergantung sumber air baku</span>
+              </div>
+            </article>
+
+            <article className="feature-card lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="icon-tile">
+                    <Wind className="size-5" />
+                  </div>
+                  <span className="text-xs font-mono font-bold text-primary">02</span>
+                </div>
+                <h3 className="mt-6 text-xl font-extrabold text-foreground">
+                  Air Tanpa Bau Mengganggu
+                </h3>
+                <p className="mt-3 text-xs sm:text-sm leading-relaxed text-foreground/80">
+                  Karbon aktif tempurung kelapa menyerap senyawa volatil dan aroma tanah,
+                  menghadirkan rasa air yang netral dan segar.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-border/60 text-xs font-semibold text-primary">
+                Karbon Tempurung Kelapa
+              </div>
+            </article>
+
+            <article className="feature-card lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="icon-tile">
+                    <ShieldCheck className="size-5" />
+                  </div>
+                  <span className="text-xs font-mono font-bold text-primary">03</span>
+                </div>
+                <h3 className="mt-6 text-xl font-extrabold text-foreground">
+                  Reduksi Residu Klorin
+                </h3>
+                <p className="mt-3 text-xs sm:text-sm leading-relaxed text-foreground/80">
+                  Membantu mengurangi residu klorin dan kaporit dari instalasi air perpipaan kota
+                  untuk hidrasi yang lebih nyaman diminum.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-border/60 text-xs font-semibold text-primary">
+                Filtrasi Klorin Aktif
+              </div>
+            </article>
+
+            <article className="feature-card lg:col-span-7 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="icon-tile">
+                    <Droplets className="size-5" />
+                  </div>
+                  <span className="text-xs font-mono font-bold text-primary">04</span>
+                </div>
+                <h3 className="mt-6 text-xl sm:text-2xl font-extrabold text-foreground">
+                  Kapasitas 3,2 Liter Ramah Keluarga
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+                  Cukup untuk kebutuhan hidrasi harian seluruh anggota keluarga tanpa perlu colokan
+                  kabel, dispenser berat, atau tagihan listrik tambahan.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-between text-xs text-muted-foreground">
+                <span className="font-semibold text-primary">100% Bebas Listrik</span>
+                <span>Material Tritan Food-Grade</span>
+              </div>
+            </article>
+          </div>
+          <p className="mt-6 text-xs leading-5 text-muted-foreground">
+            * Spesifikasi berdasarkan informasi penjual. Efektivitas filter dan pH hasil memerlukan
+            pengujian; bukan jaminan kualitas air atau manfaat medis.
+          </p>
+        </section>
+
+        <ProductInformation />
+
+        <section
+          id="kualitas-air"
+          className="section bg-gradient-to-b from-water-soft via-background to-water-soft/30 py-20"
+        >
+          <div className="page-width">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="eyebrow mb-3">EDUKASI KUALITAS AIR</p>
+              <h2 className="section-title">
+                Air yang Baik Bukan
+                <br />
+                <span className="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">
+                  Sekadar Terlihat Jernih.
+                </span>
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-foreground/80">
+                Derajat keasaman (pH), total zat terlarut (TDS), dan kebersihan mikrobiologi adalah
+                parameter penentu. Kenali skalanya di bawah ini:
+              </p>
+            </div>
+            <div className="mt-12 grid gap-12 lg:grid-cols-[1.1fr_1fr]">
+              <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
+                <div className="mb-5 flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-foreground">
+                    Simulasi Skala Derajat pH (0 — 14)
+                  </h3>
+                  <span className="text-xs font-semibold text-primary">Interaktif</span>
+                </div>
+                <div className="ph-scale" role="group" aria-label="Skala pH interaktif">
+                  {Array.from({ length: 15 }, (_, i) => (
+                    <Button
+                      key={i}
+                      variant="ghost"
+                      aria-label={`pH ${i}`}
+                      aria-pressed={selectedPh === i}
+                      data-active={selectedPh === i}
+                      onClick={() => setSelectedPh(i)}
+                    >
+                      {i}
+                    </Button>
+                  ))}
+                </div>
+                <div className="mt-3 flex justify-between text-xs font-bold text-muted-foreground">
+                  <span className="text-red-500">ASAM (0-6)</span>
+                  <span className="text-emerald-600">NETRAL (7)</span>
+                  <span className="text-primary">BASA / ALKALI (8-14)</span>
+                </div>
+                <div className="mt-4 flex flex-wrap items-center gap-2 pt-1">
+                  <span className="text-xs font-semibold text-muted-foreground mr-1">
+                    Simulasi Cepat:
+                  </span>
+                  {[
+                    { label: "Lemon (pH 2)", val: 2 },
+                    { label: "Kopi (pH 5)", val: 5 },
+                    { label: "Air Murni (pH 7)", val: 7 },
+                    { label: "Ideal Permenkes (pH 8)", val: 8 },
+                    { label: "Alkali AsonE (pH 9)", val: 9 },
+                  ].map((preset) => (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => setSelectedPh(preset.val)}
+                      className={`rounded-lg px-2.5 py-1 text-xs font-bold transition-all ${
+                        selectedPh === preset.val
+                          ? "bg-primary text-primary-foreground shadow-xs"
+                          : "bg-muted text-foreground/80 hover:bg-primary/10 hover:text-primary"
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-6 flex items-start gap-5 rounded-2xl border border-primary/20 bg-primary/[0.04] p-5">
+                  <div className="number min-w-14 text-primary tabular-nums">{selectedPh}</div>
+                  <div aria-live="polite">
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-base font-bold text-foreground">{ph.label}</h4>
+                      {selectedPh >= 6.5 && selectedPh <= 8.5 ? (
+                        <span className="text-xs font-bold text-emerald-700">
+                          · Rentang Ideal Permenkes
+                        </span>
+                      ) : selectedPh > 8.5 ? (
+                        <span className="text-xs font-bold text-primary">· Kategori Alkali</span>
+                      ) : (
+                        <span className="text-xs font-bold text-red-600">· Kategori Asam</span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs sm:text-sm leading-relaxed text-foreground/80">
+                      {ph.explanation}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 flex gap-3 rounded-xl border border-border/80 bg-background p-4 text-xs leading-relaxed text-foreground/85">
+                  <Info className="mt-0.5 size-4 shrink-0 text-primary" />
+                  <p>
+                    <strong className="text-primary font-bold">Catatan Regulasi:</strong> Standar pH
+                    air minum Indonesia berdasarkan Permenkes No. 2 Tahun 2023 adalah{" "}
+                    <strong>6,5–8,5</strong>. Klaim pH 9,0+ berada di atas rentang standar ini;
+                    selalu sesuaikan dengan kondisi dan kebutuhan tubuh Anda.
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
+                <p className="eyebrow mb-3">ACUAN KEMENTERIAN KESEHATAN RI</p>
+                <h3 className="text-xl font-bold text-foreground">Standar Baku Mutu Air Minum</h3>
+                <p className="mt-3 text-xs leading-6 text-muted-foreground">
+                  Berdasarkan <strong>Permenkes No. 2 Tahun 2023</strong> tentang Standar Baku Mutu
+                  Kesehatan Lingkungan untuk Media Air Minum:
+                </p>
+                <dl className="mt-5 divide-y divide-border/60">
+                  {[
+                    ["Derajat keasaman (pH)", "6,5 – 8,5", "Parameter Kimia Wajib"],
+                    ["Total zat terlarut (TDS)", "< 300 mg/L", "Parameter Fisik"],
+                    ["Tingkat Kekeruhan", "< 3 NTU", "Parameter Fisik"],
+                    ["Bakteri E. coli & Koliform", "0 / 100 mL", "Parameter Mikrobiologi"],
+                  ].map(([name, value, category]) => (
+                    <div
+                      key={name}
+                      className="flex items-center justify-between gap-4 py-3.5 text-xs"
+                    >
+                      <div>
+                        <dt className="font-semibold text-foreground">{name}</dt>
+                        <span className="text-[11px] text-muted-foreground">{category}</span>
+                      </div>
+                      <dd className="font-mono font-bold text-emerald-700 tabular-nums text-sm">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <a
+                  href="https://jdih.kemkes.go.id/storage/documents/pdfs/2023permenkes002.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 text-xs font-bold text-primary transition-all hover:bg-primary/10"
+                >
+                  Unduh Dokumen Resmi Permenkes <ExternalLink className="size-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="jenis-air" className="section page-width">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="eyebrow mb-3">MACAM-MACAM AIR</p>
+              <h2 className="section-title">
+                Kenali jenis air
+                <br />
+                yang Anda minum.
+              </h2>
+            </div>
+            <p className="max-w-[330px] text-sm leading-7 text-muted-foreground">
+              Dari air mineral hingga air sumur: asal, perkiraan pH, dan hal yang perlu
+              diperhatikan.
+            </p>
+          </div>
+          <WaterTypesExplorer />
+          <div className="mt-8">
+            <WaterChartCard chart={waterTypePh} />
+          </div>
+        </section>
+
+        <section id="data-air" className="section page-width">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="eyebrow mb-3">DATA & FAKTA AIR</p>
+              <h2 className="section-title">
+                Angka yang perlu
+                <br />
+                Anda kenali.
+              </h2>
+            </div>
+            <p className="max-w-[330px] text-sm leading-7 text-muted-foreground">
+              Ringkasan data kualitas air dari standar resmi dan literatur umum, disajikan dalam
+              grafik sederhana.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            <WaterChartCard chart={phComparison} />
+            <WaterChartCard chart={heavyMetalLimits} />
+            <WaterChartCard chart={ironLevels} />
+            <WaterChartCard chart={filterEffectiveness} />
+            <WaterChartCard chart={bodyWater} />
+            <WaterChartCard chart={intakeSources} />
+            <WaterChartCard chart={hydrationNeeds} />
+            <WaterChartCard chart={treatmentRadar} />
+          </div>
+          <p className="mt-5 text-[11px] leading-5 text-muted-foreground">
+            Grafik bersifat edukatif. Untuk memastikan kualitas air di rumah Anda, lakukan uji
+            laboratorium terhadap sumber air.
+          </p>
+        </section>
+
+        <section id="galeri" className="section page-width">
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p className="eyebrow mb-3">LEBIH DEKAT DENGAN ASONE</p>
+              <h2 className="section-title">Satu Teko. Banyak Momen.</h2>
+            </div>
+            <span className="text-xs font-semibold text-muted-foreground">
+              Klik foto untuk melihat resolusi penuh
+            </span>
+          </div>
+          <Tabs defaultValue="photo" className="mt-8 gallery-tabs">
+            <TabsList
+              aria-label="Jenis media produk"
+              className="h-11 gap-1 bg-secondary rounded-xl p-1"
+            >
+              <TabsTrigger
+                value="photo"
+                className="gap-2 px-6 py-2 rounded-lg font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <ImageIcon className="size-4" aria-hidden="true" />
+                Galeri Foto Resmi
+              </TabsTrigger>
+              <TabsTrigger
+                value="video"
+                className="gap-2 px-6 py-2 rounded-lg font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <Play className="size-4" aria-hidden="true" />
+                Panduan Video
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="photo" className="mt-8">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  {
+                    src: originalPhoto,
+                    title: "ASONE Alkaline Water Pitcher",
+                    tag: "Produk Asli & Kemasan",
+                    desc: "Teko filter 3,2 liter dengan teknologi Korea asli dan material Tritan food-grade tahan lama.",
+                  },
+                  {
+                    src: cartridgeMacroPhoto,
+                    title: "Detail Media Cartridge",
+                    tag: "3 Tahap Filtrasi",
+                    desc: "Lapisan butiran karbon aktif penyerap bau dan bio-keramik peningkat derajat pH air.",
+                  },
+                  {
+                    src: lifestylePhoto,
+                    title: "AsonE di Meja Dapur",
+                    tag: "Keseharian Keluarga",
+                    desc: "Desain minimalis yang selaras dengan interior dapur modern tanpa membutuhkan sambungan listrik.",
+                  },
+                  {
+                    src: waterNaturePhoto,
+                    title: "Kemurnian Alami",
+                    tag: "Hidrasi Segar",
+                    desc: "Sensasi air yang jernih, segar, dan nyaman diminum untuk rutinitas minum harian Anda.",
+                  },
+                ].map((item) => (
+                  <figure
+                    key={item.title}
+                    className="group cursor-pointer overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:shadow-xl"
+                    onClick={() => setActivePhoto(item)}
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                      <img
+                        src={item.src}
+                        alt={item.title}
+                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100 flex items-end p-4">
+                        <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                          <ExternalLink className="size-3.5" /> Lihat Detail
+                        </span>
+                      </div>
+                    </div>
+                    <figcaption className="p-4">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-primary">
+                        {item.tag}
+                      </div>
+                      <h4 className="mt-1 text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{item.desc}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </TabsContent>
+            <TabsContent value="video" className="mt-8">
+              <div className="grid gap-6 md:grid-cols-2">
+                {[
+                  {
+                    title: "Mengenal AsonE & Fitur Utama",
+                    thumb: lifestylePhoto,
+                    duration: "2:15 Menit",
+                    desc: "Panduan cara kerja gravitasi 100% tanpa listrik dan kapasitas 3,2 liter.",
+                  },
+                  {
+                    title: "Cara Memasang & Merawat Cartridge",
+                    thumb: cartridgeMacroPhoto,
+                    duration: "1:45 Menit",
+                    desc: "Langkah pembilasan awal dan perawatan media filter untuk performa maksimal.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="group cursor-pointer overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl"
+                    onClick={() => setMediaNotice(item.title)}
+                  >
+                    <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+                      <img
+                        src={item.thumb}
+                        alt={item.title}
+                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-black/35 flex items-center justify-center transition-colors group-hover:bg-black/25">
+                        <div className="flex size-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform group-hover:scale-110">
+                          <Play className="size-6 ml-0.5" />
+                        </div>
+                      </div>
+                      <div className="absolute bottom-3 right-3 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-bold text-white">
+                        {item.duration}
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <h4 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="mt-1 text-xs text-muted-foreground">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-border/80 bg-card p-5 text-xs text-muted-foreground shadow-xs">
+            <span className="font-bold text-foreground">Spesifikasi Fisik Teko:</span>
+            <span>
+              Kapasitas:{" "}
+              <strong className="text-foreground">
+                {String(product.capacityLiters).replace(".", ",")} Liter
+              </strong>
+            </span>
+            <span>
+              Dimensi Kotak:{" "}
+              <strong className="text-foreground">{product.boxDimensionsCm.join(" × ")} cm</strong>
+            </span>
+            <span>
+              Material Utama: <strong className="text-foreground">{product.mainMaterial}</strong>
+            </span>
+            <span>
+              Sistem Operasi:{" "}
+              <strong className="text-foreground">{product.operatingSystem} Bebas Listrik</strong>
+            </span>
+            <span>
+              Media: <strong className="text-foreground">{product.filterMedia.join(", ")}</strong>
+            </span>
+          </div>
+        </section>
+
+        <section id="testimoni" className="section bg-warm">
+          <div className="page-width">
+            <div className="text-center">
+              <p className="eyebrow mb-3">CERITA PENGGUNA</p>
+              <h2 className="section-title">Ruang untuk Pengalaman Anda.</h2>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Ulasan terverifikasi akan ditampilkan setelah tersedia dari pembeli resmi.
+              </p>
+            </div>
+            <TestimonialCarousel />
+            <div className="mt-6 text-center">
+              <Button asChild variant="link" className="font-bold text-primary">
+                <a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer">
+                  Lihat ulasan pembeli di Shopee <ArrowUpRight className="size-4 ml-1" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" className="section page-width">
+          <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <p className="eyebrow mb-3">SEBELUM TEGUKAN PERTAMA</p>
+              <h2 className="section-title">
+                Hal yang Perlu
+                <br />
+                Anda Ketahui.
+              </h2>
+              <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/80">
+                Pilihan yang baik dimulai dengan informasi yang jelas dan transparan. Kenali cara
+                pakai serta batasan produk.
+              </p>
+              <div className="mt-6 flex max-w-xs items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4">
+                <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" />
+                <p className="text-xs leading-relaxed text-foreground/85">
+                  Bukan pengganti perawatan medis. Gunakan air yang sudah layak minum dan ikuti
+                  petunjuk penjual.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {faqs.map(([question, answer], i) => (
+                <div
+                  key={question}
+                  className="rounded-2xl border border-border/80 bg-card p-1.5 shadow-xs transition-all hover:border-primary/40"
+                >
+                  <Button
+                    variant="ghost"
+                    className="h-auto w-full justify-between whitespace-normal rounded-xl px-4 py-3.5 text-left text-sm font-bold text-foreground hover:bg-primary/[0.04]"
+                    aria-expanded={openFaq === i}
+                    aria-controls={`faq-${i}`}
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
+                    <span className="pr-3 leading-snug">{question}</span>
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      {openFaq === i ? (
+                        <Minus className="size-4 text-primary" />
+                      ) : (
+                        <Plus className="size-4 text-primary" />
+                      )}
+                    </span>
+                  </Button>
+                  {openFaq === i && (
+                    <p
+                      id={`faq-${i}`}
+                      className="px-4 pb-4 pt-1 text-xs leading-relaxed text-foreground/80"
+                    >
+                      {answer}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden py-24 text-white">
+          <img
+            src={waterNaturePhoto}
+            alt="Mata air pegunungan alami"
+            className="absolute inset-0 size-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-primary/90 to-cyan-950/85 backdrop-blur-[2px]" />
+          <div className="page-width relative z-10 flex flex-col justify-between gap-8 md:flex-row md:items-center">
+            <div className="max-w-xl">
+              <span className="eyebrow mb-3 bg-white text-primary font-extrabold shadow-md">
+                ✨ PILIHAN HIDRASI KELUARGA
+              </span>
+              <h2 className="section-title text-white">
+                Awali Gaya Hidup Sehat dengan Teko AsonE.
+              </h2>
+              <p className="mt-4 text-base font-medium text-white/90 leading-relaxed">
+                Kapasitas 3,2 Liter · 100% Bebas Listrik · 3 Media Filter Alami (Karbon Aktif,
+                Bio-Keramik, Bio-Alkaline) · Tritan Bebas BPA
+              </p>
+            </div>
+            <div className="flex flex-col items-start sm:items-end">
+              <BuyButton light label="Dapatkan AsonE di Shopee" />
+              <p className="mt-3 text-xs font-semibold text-white/90">
+                Toko Resmi · Garansi Pengiriman Cepat ke Seluruh Indonesia
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="page-width pb-20 md:pb-8 pt-12">
+        <div className="flex flex-col justify-between gap-7 md:flex-row">
+          <div>
+            <Brand />
+            <p className="mt-4 max-w-xs text-xs leading-6 text-muted-foreground">
+              Pilihan hidrasi yang dimulai dengan mengenal air Anda.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-8 gap-y-4 text-xs font-medium text-foreground/75">
+            <a href="#produk" className="hover:text-primary transition-colors">
+              Tentang AsonE
+            </a>
+            <a href="#kualitas-air" className="hover:text-primary transition-colors">
+              Edukasi Air
+            </a>
+            <a href="#jenis-air" className="hover:text-primary transition-colors">
+              Macam Air
+            </a>
+            <a href="#data-air" className="hover:text-primary transition-colors">
+              Data Mutu
+            </a>
+            <a href="#galeri" className="hover:text-primary transition-colors">
+              Galeri Produk
+            </a>
+            <a
+              href={product.purchaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 font-bold text-primary"
+            >
+              Shopee Resmi <ArrowUpRight className="size-3" />
+            </a>
+          </div>
+        </div>
+        <div className="mt-8 flex flex-col justify-between gap-3 border-t border-border pt-6 text-[11px] leading-5 text-muted-foreground">
+          <span>
+            © {new Date().getUTCFullYear()} AsonE. Clean & Healthy Hydration. Seluruh hak cipta
+            dilindungi.
+          </span>
+          <span>
+            Informasi bersifat edukatif dan bukan nasihat medis. Klaim produk berasal dari penjual;
+            hasil penggunaan individual dapat bervariasi sesuai sumber air yang digunakan.
+          </span>
+        </div>
+      </footer>
+
+      {/* Floating Mobile Sticky CTA: < 15% mobile viewport height */}
+      <div className="fixed bottom-0 inset-x-0 z-30 flex items-center justify-between gap-3 border-t border-border/80 bg-background/95 px-4 py-2.5 shadow-xl backdrop-blur-md md:hidden">
+        <div>
+          <div className="text-xs font-extrabold text-foreground">ASONE Water Filter</div>
+          <div className="text-[10px] text-muted-foreground">3,2L · Bebas Listrik</div>
+        </div>
+        <BuyButton compact label="Beli di Shopee" />
+      </div>
+
+      {activePhoto && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 grid place-items-center bg-black/80 backdrop-blur-sm p-4 sm:p-8"
+          onClick={() => setActivePhoto(null)}
+        >
+          <div
+            className="relative max-w-3xl w-full overflow-hidden rounded-2xl bg-card border border-border/80 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setActivePhoto(null)}
+              className="absolute top-4 right-4 z-10 flex size-9 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm hover:bg-black transition-colors"
+              aria-label="Tutup foto"
+            >
+              <X className="size-5" />
+            </button>
+            <div className="max-h-[65vh] overflow-hidden bg-black/5 flex items-center justify-center">
+              <img
+                src={activePhoto.src}
+                alt={activePhoto.title}
+                className="max-h-[65vh] w-full object-contain"
+              />
+            </div>
+            <div className="p-6">
+              <div className="text-xs font-bold text-primary uppercase tracking-wider">
+                {activePhoto.tag}
+              </div>
+              <h3 className="mt-1 text-xl font-bold text-foreground">{activePhoto.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {activePhoto.desc}
+              </p>
             </div>
           </div>
         </div>
-      </section>
+      )}
 
-      <section id="jenis-air" className="section page-width">
-        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="eyebrow mb-3">MACAM-MACAM AIR</p><h2 className="section-title">Kenali jenis air<br />yang Anda minum.</h2></div><p className="max-w-[330px] text-sm leading-7 text-muted-foreground">Dari air mineral hingga air sumur: asal, perkiraan pH, dan hal yang perlu diperhatikan.</p></div>
-        <WaterTypesExplorer />
-        <div className="mt-8"><WaterChartCard chart={waterTypePh} /></div>
-      </section>
-
-      <section id="data-air" className="section page-width">
-        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="eyebrow mb-3">DATA & FAKTA AIR</p><h2 className="section-title">Angka yang perlu<br />Anda kenali.</h2></div><p className="max-w-[330px] text-sm leading-7 text-muted-foreground">Ringkasan data kualitas air dari standar resmi dan literatur umum, disajikan dalam grafik sederhana.</p></div>
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <WaterChartCard chart={phComparison} />
-          <WaterChartCard chart={heavyMetalLimits} />
-          <WaterChartCard chart={ironLevels} />
-          <WaterChartCard chart={filterEffectiveness} />
-          <WaterChartCard chart={bodyWater} />
-          <WaterChartCard chart={intakeSources} />
-          <WaterChartCard chart={hydrationNeeds} />
-          <WaterChartCard chart={treatmentRadar} />
+      {mediaNotice && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="video-title"
+          className="fixed inset-0 z-50 grid place-items-center bg-foreground/50 backdrop-blur-sm px-5"
+          onClick={() => setMediaNotice(null)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-2xl bg-background p-8 shadow-2xl border border-border"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-3 top-3"
+              aria-label="Tutup informasi video"
+              onClick={() => setMediaNotice(null)}
+            >
+              <X />
+            </Button>
+            <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
+              <Play className="size-6 ml-0.5" />
+            </div>
+            <h2 id="video-title" className="text-xl font-bold text-foreground">
+              {mediaNotice}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Video tutorial dan panduan operasional teko AsonE siap diakses di channel resmi Shopee
+              dan media sosial AsonE.
+            </p>
+            <div className="mt-6 flex gap-3">
+              <Button asChild className="w-full">
+                <a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer">
+                  Buka Panduan di Shopee <ArrowUpRight className="size-4 ml-1" />
+                </a>
+              </Button>
+              <Button variant="outline" onClick={() => setMediaNotice(null)}>
+                Tutup
+              </Button>
+            </div>
+          </div>
         </div>
-        <p className="mt-5 text-[11px] leading-5 text-muted-foreground">Grafik bersifat edukatif. Untuk memastikan kualitas air di rumah Anda, lakukan uji laboratorium terhadap sumber air.</p>
-      </section>
-
-      <section id="galeri" className="section page-width">
-        <div className="flex flex-wrap items-end justify-between gap-5"><div><p className="eyebrow mb-3">LEBIH DEKAT DENGAN ASONE</p><h2 className="section-title">Satu teko. Banyak momen.</h2></div><span className="text-xs text-muted-foreground">Detail produk & inspirasi keseharian</span></div>
-        <Tabs defaultValue="photo" className="mt-7 gallery-tabs">
-          <TabsList aria-label="Jenis media produk" className="h-11 gap-1 bg-secondary">
-            <TabsTrigger value="photo" className="gap-2 px-5 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"><ImageIcon className="size-4" aria-hidden="true" />Foto</TabsTrigger>
-            <TabsTrigger value="video" className="gap-2 px-5 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"><Play className="size-4" aria-hidden="true" />Video</TabsTrigger>
-          </TabsList>
-          <TabsContent value="photo" className="mt-6"><div className="gallery-grid grid gap-5 sm:grid-cols-[2fr_1fr_1fr]"><figure><img src={originalPhoto} alt="Foto asli teko dan kemasan AsonE dari pemilik produk" className="gallery-photo" loading="lazy" /><figcaption className="mt-3 text-xs">ASONE Alkaline Water Filter <span className="text-muted-foreground">· Foto produk asli</span></figcaption></figure>{['Detail cartridge', 'AsonE di keseharian Anda'].map(label => <figure key={label}><div className="media-placeholder"><ImageIcon className="size-8 stroke-1" /><span className="text-xs">Foto segera hadir</span></div><figcaption className="mt-3 text-xs">{label} <span className="text-muted-foreground">· Placeholder</span></figcaption></figure>)}</div></TabsContent>
-          <TabsContent value="video" className="mt-6"><div className="grid gap-6 md:grid-cols-2">{['Mengenal AsonE lebih dekat', 'Cara menggunakan teko AsonE'].map(label => <div key={label}><div className="video-placeholder"><Button variant="outline" size="icon" className="size-14 rounded-full" aria-label={`Informasi video ${label}`} onClick={() => setMediaNotice(label)}><Play className="size-5" /></Button></div><div className="mt-3 flex justify-between gap-3 text-xs"><span>{label}</span><span className="text-muted-foreground">Video segera hadir</span></div></div>)}</div></TabsContent>
-        </Tabs>
-        <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-2 border-y border-border py-5 text-xs text-muted-foreground"><span className="font-semibold text-foreground">Spesifikasi produk</span><span>Kapasitas: {String(product.capacityLiters).replace('.', ',')} L</span><span>Dimensi kardus: {product.boxDimensionsCm.join(' × ')} cm</span><span>Bahan: {product.mainMaterial}</span><span>Sistem: {product.operatingSystem} tanpa listrik</span><span>Media filter: {product.filterMedia.join(', ')}</span></div>
-      </section>
-
-      <section id="testimoni" className="section bg-warm"><div className="page-width"><div className="text-center"><p className="eyebrow mb-3">CERITA PENGGUNA</p><h2 className="section-title">Ruang untuk pengalaman Anda.</h2><p className="mt-3 text-sm text-muted-foreground">Ulasan terverifikasi akan ditampilkan setelah tersedia.</p></div><TestimonialCarousel /><div className="mt-6 text-center"><Button asChild variant="link"><a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer">Lihat ulasan pembeli di Shopee <ArrowUpRight /></a></Button></div></div></section>
-
-      <section id="faq" className="section page-width"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><div><p className="eyebrow mb-3">SEBELUM TEGUKAN PERTAMA</p><h2 className="section-title">Hal yang perlu<br />Anda ketahui.</h2><p className="mt-4 max-w-xs text-sm leading-7 text-muted-foreground">Pilihan yang baik dimulai dengan informasi yang jelas. Kenali cara pakai dan batasan produk.</p><div className="mt-6 flex max-w-xs items-start gap-3 border-l-2 border-primary pl-4"><ShieldCheck className="mt-1 size-5 shrink-0 text-primary" /><p className="text-xs leading-6">Bukan pengganti perawatan medis. Gunakan air yang sudah layak minum dan ikuti petunjuk penjual.</p></div></div><div>{faqs.map(([question, answer], i) => <div key={question} className="border-b border-border"><Button variant="ghost" className="h-auto w-full justify-between whitespace-normal rounded-none px-0 py-5 text-left text-sm hover:bg-transparent" aria-expanded={openFaq === i} aria-controls={`faq-${i}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>{question}{openFaq === i ? <Minus className="text-primary" /> : <Plus className="text-muted-foreground" />}</Button>{openFaq === i && <p id={`faq-${i}`} className="pb-5 pr-6 text-xs leading-7 text-muted-foreground">{answer}</p>}</div>)}</div></div></section>
-
-      <section className="purchase-band py-16"><div className="page-width flex flex-col justify-between gap-7 md:flex-row md:items-center"><div><p className="eyebrow mb-3">AWALI RUTINITAS BARU ANDA</p><h2 className="section-title">AsonE, di setiap tegukan.</h2><p className="mt-3 text-sm opacity-80">Teko Filter Air Alkali · 3,2 liter · Karbon aktif</p></div><div><BuyButton light label="Dapatkan AsonE di Shopee" /><p className="mt-3 text-center text-[10px] opacity-80">Harga, stok, ongkir & pembayaran tersedia di Shopee</p></div></div></section>
-    </main>
-    <footer className="page-width pb-8 pt-12"><div className="flex flex-col justify-between gap-7 md:flex-row"><div><Brand /><p className="mt-4 max-w-xs text-xs leading-6 text-muted-foreground">Pilihan hidrasi yang dimulai dengan mengenal air Anda.</p></div><div className="flex flex-wrap gap-x-8 gap-y-4 text-xs text-muted-foreground"><a href="#produk">Tentang AsonE</a><a href="#kualitas-air">Edukasi air</a><a href="#galeri">Galeri produk</a><a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">Shopee <ArrowUpRight className="size-3" /></a></div></div><div className="mt-8 flex flex-col justify-between gap-3 border-t border-border pt-6 text-[10px] leading-5 text-muted-foreground"><span>© {new Date().getUTCFullYear()} AsonE. Clean & Healthy Hydration.</span><span>Informasi bersifat edukatif, bukan nasihat medis. Klaim produk berasal dari penjual; hasil individual dapat berbeda.</span></div></footer>
-    {mediaNotice && <div role="dialog" aria-modal="true" aria-labelledby="video-title" className="fixed inset-0 z-50 grid place-items-center bg-foreground/40 px-5" onClick={() => setMediaNotice(null)}><div className="relative w-full max-w-md rounded-lg bg-background p-8 shadow-xl" onClick={e => e.stopPropagation()}><Button variant="ghost" size="icon" className="absolute right-3 top-3" aria-label="Tutup informasi video" onClick={() => setMediaNotice(null)}><X /></Button><Play className="mb-5 size-8 text-primary" /><h2 id="video-title" className="text-xl font-semibold">{mediaNotice}</h2><p className="mt-3 text-sm leading-7 text-muted-foreground">Video produk belum tersedia. Bagian ini akan menampilkan video asli AsonE setelah ditambahkan.</p><Button className="mt-6" onClick={() => setMediaNotice(null)}>Tutup</Button></div></div>}
-  </>;
+      )}
+    </>
+  );
 }

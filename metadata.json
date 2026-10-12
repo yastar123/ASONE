@@ -1,0 +1,6 @@
+{
+  "name": "AsonE",
+  "description": "Kenali teko filter air alkali AsonE dan standar kualitas air minum.",
+  "requestFramePermissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
