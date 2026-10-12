@@ -24,10 +24,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TestimonialCarousel } from "@/components/testimonial-carousel";
-import originalPhoto from "@/assets/asone-product.png";
-import lifestylePhoto from "@/assets/images/lifestyle_hydration_countertop_1791786069680.jpg";
-import cartridgeMacroPhoto from "@/assets/images/cartridge_filtration_macro_1791786084552.jpg";
-import waterNaturePhoto from "@/assets/images/water_purity_nature_1791786097694.jpg";
 import { ProductInformation } from "@/components/product-information";
 import { product, describePh } from "@/lib/product-data";
 import { WaterChartCard } from "@/components/water-chart";
@@ -43,6 +39,59 @@ import {
   ironLevels,
   waterTypePh,
 } from "@/lib/water-data";
+import waterNaturePhoto from "@/assets/images/water_purity_nature_1791786097694.jpg";
+
+export interface ProductPhoto {
+  id: string;
+  src: string;
+  label: string;
+  title: string;
+  tag: string;
+  desc: string;
+}
+
+const productGallery: ProductPhoto[] = [
+  {
+    id: "01",
+    src: "/product-1.png",
+    label: "01 / Unit & Kemasan",
+    title: "ASONE Pitcher Utama & Box Kemasan",
+    tag: "Unit Utama 3,2L",
+    desc: "Teko filter air alkali 3,2 liter berteknologi Korea, 100% bebas listrik berbahan Tritan Food-Grade bebas BPA.",
+  },
+  {
+    id: "02",
+    src: "/product-2.png",
+    label: "02 / Cartridge 3 Tahap",
+    title: "Sistem Presisi Corong & Cartridge Filter",
+    tag: "Detail Komponen",
+    desc: "Komponen filter presisi dengan karbon aktif kelapa alami, bio keramik, dan bio alkaline mineral core.",
+  },
+  {
+    id: "03",
+    src: "/product-3.png",
+    label: "03 / Desain Ergonomis",
+    title: "Pegangan Nyaman & Corong Presisi",
+    tag: "Kemudahan Pakai",
+    desc: "Desain ergonomis memudahkan pengisian air dan penuangan harian tanpa tumpah atau tercecer.",
+  },
+  {
+    id: "04",
+    src: "/product-4.png",
+    label: "04 / Material Tritan",
+    title: "Bodi Jernih Tritan Bebas BPA",
+    tag: "Kualitas Fisik",
+    desc: "Material tangguh berstandar makanan (food-grade), bening layaknya kaca kristal, tahan benturan dan higienis.",
+  },
+  {
+    id: "05",
+    src: "/product-5.png",
+    label: "05 / Sudut Menyeluruh",
+    title: "Proporsi Elegan 3,2 Liter Siap Pakai",
+    tag: "Kapasitas Keluarga",
+    desc: "Ukuran ideal (26 × 16 × 27 cm) yang pas di kulkas, meja makan, maupun ruang kerja keluarga Anda.",
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -176,13 +225,10 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPh, setSelectedPh] = useState(7);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [mediaNotice, setMediaNotice] = useState<string | null>(null);
-  const [activePhoto, setActivePhoto] = useState<{
-    src: string;
-    title: string;
-    tag: string;
-    desc: string;
-  } | null>(null);
+  const [selectedHeroIdx, setSelectedHeroIdx] = useState(0);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [activePhoto, setActivePhoto] = useState<ProductPhoto | null>(null);
+  const currentHero = productGallery[selectedHeroIdx] ?? productGallery[0]!;
   const ph = describePh(selectedPh);
   return (
     <>
@@ -250,8 +296,8 @@ function Index() {
       <main>
         <section className="hero">
           <img
-            src={originalPhoto}
-            alt="Foto asli teko filter air ASONE dan kemasannya di atas meja"
+            src={currentHero.src}
+            alt={currentHero.title}
             className="hero-image"
             fetchPriority="high"
           />
@@ -273,18 +319,53 @@ function Index() {
                 <strong className="text-primary font-bold">Plastik Tritan Food-Grade</strong>.
                 Praktis menyaring air untuk rutinitas hidrasi sehat keluarga Anda.
               </p>
-              <div className="mt-7 flex flex-wrap items-center gap-4">
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <BuyButton />
                 <Button
                   variant="outline"
+                  type="button"
+                  onClick={() => setIsVideoModalOpen(true)}
+                  className="h-12 border-primary/40 bg-card/90 px-4 font-bold hover:bg-primary/10 hover:text-primary gap-2 shadow-xs transition-all cursor-pointer"
+                >
+                  <Play className="size-4 fill-primary text-primary" />
+                  Tonton Video Demo
+                </Button>
+                <Button
+                  variant="ghost"
                   asChild
-                  className="h-12 border-primary/30 px-5 font-bold hover:bg-primary/5 hover:text-primary"
+                  className="h-12 px-4 font-bold hover:bg-primary/5 hover:text-primary"
                 >
                   <a href="#produk">
-                    Jelajahi Produk <ArrowRight className="size-4" />
+                    Fitur <ArrowRight className="size-4 ml-1" />
                   </a>
                 </Button>
               </div>
+
+              {/* Angle Switcher for Products 1 to 5 */}
+              <div className="mt-6 flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mr-1">
+                  Sudut Teko:
+                </span>
+                {productGallery.map((item, idx) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setSelectedHeroIdx(idx)}
+                    className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all cursor-pointer ${
+                      selectedHeroIdx === idx
+                        ? "border-primary bg-primary text-primary-foreground shadow-xs"
+                        : "border-border/80 bg-card text-foreground/80 hover:border-primary/40 hover:bg-primary/5"
+                    }`}
+                    aria-label={`Pilih sudut ${item.title}`}
+                  >
+                    <span>{item.id}</span>
+                    <span className="hidden sm:inline text-[11px] font-medium opacity-90">
+                      {item.tag}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
               <div className="hero-details">
                 <span>
                   <Check className="size-3.5" /> 3,2 Liter
@@ -299,10 +380,19 @@ function Index() {
             </div>
           </div>
           <div className="hero-feature">
-            <span className="text-xs font-bold tracking-wide">01 / ASONE ORIGINAL</span>
-            <span className="text-xs font-semibold">
-              Teko & Kemasan Resmi <ArrowUpRight className="inline size-4" />
-            </span>
+            <div>
+              <span className="text-xs font-bold tracking-wide">{currentHero.label}</span>
+              <span className="ml-3 hidden sm:inline text-xs font-normal text-white/80">
+                {currentHero.title}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setActivePhoto(currentHero)}
+              className="text-xs font-bold text-cyan-300 hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              Perbesar Foto <ArrowUpRight className="inline size-4" />
+            </button>
           </div>
         </section>
         <div className="border-b border-border bg-gradient-to-r from-background via-water-soft/40 to-background py-5">
@@ -666,48 +756,23 @@ function Index() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="photo" className="mt-8">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {[
-                  {
-                    src: originalPhoto,
-                    title: "ASONE Alkaline Water Pitcher",
-                    tag: "Produk Asli & Kemasan",
-                    desc: "Teko filter 3,2 liter dengan teknologi Korea asli dan material Tritan food-grade tahan lama.",
-                  },
-                  {
-                    src: cartridgeMacroPhoto,
-                    title: "Detail Media Cartridge",
-                    tag: "3 Tahap Filtrasi",
-                    desc: "Lapisan butiran karbon aktif penyerap bau dan bio-keramik peningkat derajat pH air.",
-                  },
-                  {
-                    src: lifestylePhoto,
-                    title: "AsonE di Meja Dapur",
-                    tag: "Keseharian Keluarga",
-                    desc: "Desain minimalis yang selaras dengan interior dapur modern tanpa membutuhkan sambungan listrik.",
-                  },
-                  {
-                    src: waterNaturePhoto,
-                    title: "Kemurnian Alami",
-                    tag: "Hidrasi Segar",
-                    desc: "Sensasi air yang jernih, segar, dan nyaman diminum untuk rutinitas minum harian Anda.",
-                  },
-                ].map((item) => (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                {productGallery.map((item) => (
                   <figure
-                    key={item.title}
+                    key={item.id}
                     className="group cursor-pointer overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:shadow-xl"
                     onClick={() => setActivePhoto(item)}
                   >
-                    <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    <div className="relative aspect-square overflow-hidden bg-gradient-to-b from-muted/30 to-muted/10 p-3 flex items-center justify-center">
                       <img
                         src={item.src}
                         alt={item.title}
-                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="size-full object-contain transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100 flex items-end p-4">
-                        <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                          <ExternalLink className="size-3.5" /> Lihat Detail
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100 flex items-end p-3">
+                        <span className="text-[11px] font-bold text-white flex items-center gap-1.5">
+                          <ExternalLink className="size-3" /> Perbesar
                         </span>
                       </div>
                     </div>
@@ -715,60 +780,104 @@ function Index() {
                       <div className="text-[10px] font-bold uppercase tracking-wider text-primary">
                         {item.tag}
                       </div>
-                      <h4 className="mt-1 text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                      <h4 className="mt-1 text-sm font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1">
                         {item.title}
                       </h4>
-                      <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{item.desc}</p>
+                      <p className="mt-1 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                        {item.desc}
+                      </p>
                     </figcaption>
                   </figure>
                 ))}
               </div>
             </TabsContent>
             <TabsContent value="video" className="mt-8">
-              <div className="grid gap-6 md:grid-cols-2">
-                {[
-                  {
-                    title: "Mengenal AsonE & Fitur Utama",
-                    thumb: lifestylePhoto,
-                    duration: "2:15 Menit",
-                    desc: "Panduan cara kerja gravitasi 100% tanpa listrik dan kapasitas 3,2 liter.",
-                  },
-                  {
-                    title: "Cara Memasang & Merawat Cartridge",
-                    thumb: cartridgeMacroPhoto,
-                    duration: "1:45 Menit",
-                    desc: "Langkah pembilasan awal dan perawatan media filter untuk performa maksimal.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="group cursor-pointer overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl"
-                    onClick={() => setMediaNotice(item.title)}
-                  >
-                    <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-                      <img
-                        src={item.thumb}
-                        alt={item.title}
-                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-black/35 flex items-center justify-center transition-colors group-hover:bg-black/25">
-                        <div className="flex size-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform group-hover:scale-110">
-                          <Play className="size-6 ml-0.5" />
-                        </div>
-                      </div>
-                      <div className="absolute bottom-3 right-3 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-bold text-white">
-                        {item.duration}
-                      </div>
+              <div className="grid gap-8 lg:grid-cols-12 items-center rounded-3xl border border-border/80 bg-card p-6 sm:p-8 shadow-sm">
+                <div className="lg:col-span-5 flex justify-center">
+                  <div className="relative mx-auto w-full max-w-[280px] sm:max-w-[310px] aspect-[9/16] overflow-hidden rounded-[2.5rem] p-2.5 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 shadow-2xl ring-1 ring-white/20">
+                    {/* Simulated mobile speaker bar */}
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 h-4 w-24 rounded-full bg-slate-900/90 border border-white/10 flex items-center justify-center">
+                      <div className="size-2 rounded-full bg-slate-700/80 mr-2" />
+                      <div className="h-1 w-8 rounded-full bg-slate-700/60" />
                     </div>
-                    <div className="p-5">
-                      <h4 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="mt-1 text-xs text-muted-foreground">{item.desc}</p>
+                    <div className="size-full overflow-hidden rounded-[2rem] bg-black relative">
+                      <video
+                        src="/video-a.mp4"
+                        poster="/product-1.png"
+                        controls
+                        playsInline
+                        preload="metadata"
+                        className="size-full object-cover"
+                      >
+                        <source src="/video-a.mp4" type="video/mp4" />
+                        <source src="/video-1.mp4" type="video/mp4" />
+                        Browser Anda tidak mendukung tag video.
+                      </video>
                     </div>
                   </div>
-                ))}
+                </div>
+
+                <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+                  <div>
+                    <div className="eyebrow mb-2 flex items-center gap-1.5 text-primary">
+                      <Play className="size-3.5 fill-primary" /> VIDEO DEMO ASLI (12 DETIK)
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+                      Melihat Langsung Teko AsonE & Aliran Filtrasi Alami
+                    </h3>
+                    <p className="mt-3 text-sm sm:text-base leading-relaxed text-foreground/80">
+                      Saksikan demonstrasi fisik teko filter air alkali AsonE. Tanpa colokan listrik
+                      dan kabel, cukup tuang air dari corong atas dan gravitasi mengalirkan air
+                      melalui 3 lapisan filter cartridge.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <div className="rounded-xl border border-border/80 bg-muted/30 p-3.5">
+                      <div className="text-xs font-mono font-bold text-primary">01 / Gravitasi</div>
+                      <div className="mt-1 text-xs font-semibold text-foreground">
+                        100% Bebas Listrik
+                      </div>
+                      <p className="mt-1 text-[11px] text-muted-foreground leading-normal">
+                        Bisa diletakkan di mana saja tanpa repot kabel.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-border/80 bg-muted/30 p-3.5">
+                      <div className="text-xs font-mono font-bold text-primary">
+                        02 / 3-Stage Filter
+                      </div>
+                      <div className="mt-1 text-xs font-semibold text-foreground">
+                        Karbon & Bio Core
+                      </div>
+                      <p className="mt-1 text-[11px] text-muted-foreground leading-normal">
+                        Menyerap bau klorin dan menyeimbangkan pH air.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-border/80 bg-muted/30 p-3.5">
+                      <div className="text-xs font-mono font-bold text-primary">
+                        03 / Tritan Bebas BPA
+                      </div>
+                      <div className="mt-1 text-xs font-semibold text-foreground">
+                        Kapasitas 3,2L
+                      </div>
+                      <p className="mt-1 text-[11px] text-muted-foreground leading-normal">
+                        Bening, kokoh, tahan banting dan higienis.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <Button
+                      type="button"
+                      onClick={() => setIsVideoModalOpen(true)}
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-sm gap-2 cursor-pointer"
+                    >
+                      <Play className="size-4 fill-primary-foreground" />
+                      Buka Video Layar Penuh
+                    </Button>
+                    <BuyButton compact label="Beli Teko di Shopee" />
+                  </div>
+                </div>
               </div>
             </TabsContent>
           </Tabs>
@@ -997,46 +1106,55 @@ function Index() {
         </div>
       )}
 
-      {mediaNotice && (
+      {isVideoModalOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="video-title"
-          className="fixed inset-0 z-50 grid place-items-center bg-foreground/50 backdrop-blur-sm px-5"
-          onClick={() => setMediaNotice(null)}
+          aria-labelledby="video-modal-title"
+          className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4 sm:p-6"
+          onClick={() => setIsVideoModalOpen(false)}
         >
           <div
-            className="relative w-full max-w-md rounded-2xl bg-background p-8 shadow-2xl border border-border"
+            className="relative max-w-lg w-full overflow-hidden rounded-3xl bg-card border border-border/80 shadow-2xl p-5 sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-3 top-3"
-              aria-label="Tutup informasi video"
-              onClick={() => setMediaNotice(null)}
+            <button
+              onClick={() => setIsVideoModalOpen(false)}
+              className="absolute top-4 right-4 z-20 flex size-9 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm hover:bg-black transition-colors cursor-pointer"
+              aria-label="Tutup pemutar video"
             >
-              <X />
-            </Button>
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
-              <Play className="size-6 ml-0.5" />
+              <X className="size-5" />
+            </button>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Play className="size-4 fill-primary" />
+              </span>
+              <div>
+                <h3 id="video-modal-title" className="text-base font-bold text-foreground">
+                  Video Demonstrasi Teko AsonE
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  ASONE Pitcher 3,2L · 100% Bebas Listrik
+                </p>
+              </div>
             </div>
-            <h2 id="video-title" className="text-xl font-bold text-foreground">
-              {mediaNotice}
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Video tutorial dan panduan operasional teko AsonE siap diakses di channel resmi Shopee
-              dan media sosial AsonE.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <Button asChild className="w-full">
-                <a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer">
-                  Buka Panduan di Shopee <ArrowUpRight className="size-4 ml-1" />
-                </a>
-              </Button>
-              <Button variant="outline" onClick={() => setMediaNotice(null)}>
-                Tutup
-              </Button>
+            <div className="relative mx-auto aspect-[9/16] max-h-[60vh] overflow-hidden rounded-2xl bg-black shadow-lg">
+              <video
+                src="/video-a.mp4"
+                poster="/product-1.png"
+                controls
+                autoPlay
+                playsInline
+                className="size-full object-contain"
+              >
+                <source src="/video-a.mp4" type="video/mp4" />
+                <source src="/video-1.mp4" type="video/mp4" />
+                Browser Anda tidak mendukung pemutar video.
+              </video>
+            </div>
+            <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t border-border/60">
+              <span className="text-xs text-muted-foreground">Toko Resmi · Garansi Pengiriman</span>
+              <BuyButton compact label="Beli di Shopee" />
             </div>
           </div>
         </div>
